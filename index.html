@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Engine Curve Simulator</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="style.css">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+
+
+<body>
+
+
+    <div class="container py-4">
+
+
+        <header class="text-center mb-4">
+
+            <h1>
+                ⚙️ Engine Curve Simulator
+            </h1>
+
+            <p class="subtitle">
+                Simulador de curva de torque e potência
+            </p>
+
+
+        </header>
+
+
+
+        <div class="card painel p-4">
+
+
+            <h4>
+                Dados do motor
+            </h4>
+
+
+            <div class="row">
+
+
+                <div class="col-md-3">
+
+                    <label>
+                        Torque máximo (kgfm)
+                    </label>
+
+                    <input id="torque" class="form-control" value="1.08">
+
+                </div>
+
+
+
+                <div class="col-md-3">
+
+                    <label>
+                        RPM torque máximo
+                    </label>
+
+                    <input id="rpmTorque" class="form-control" value="6000">
+
+                </div>
+
+
+
+                <div class="col-md-3">
+
+                    <label>
+                        Potência máxima (cv)
+                    </label>
+
+                    <input id="potencia" class="form-control" value="12">
+
+                </div>
+
+
+
+                <div class="col-md-3">
+
+                    <label>
+                        RPM potência máxima
+                    </label>
+
+                    <input id="rpmPotencia" class="form-control" value="8000">
+
+                </div>
+
+
+                <div class="col-md-3 mt-3">
+
+                    <label>
+                        RPM corte
+                    </label>
+
+                    <input id="corte" class="form-control" value="10000">
+
+                </div>
+
+
+            </div>
+
+
+
+            <hr>
+
+
+            <h4>
+                Características
+            </h4>
+
+
+
+            <div class="row">
+
+
+                <div class="col-md-3">
+
+                    <label>
+                        Combustível
+                    </label>
+
+                    <select id="combustivel" class="form-select">
+
+                        <option>Gasolina</option>
+                        <option>Álcool</option>
+                        <option>Flex</option>
+                        <option>Diesel</option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="col-md-3">
+
+                    <label>
+                        Aspiração
+                    </label>
+
+
+                    <select id="aspiracao" class="form-select">
+
+                        <option>Aspirado</option>
+                        <option>Turbo</option>
+                        <option>Turbo Diesel</option>
+
+                    </select>
+
+
+                </div>
+
+
+
+                <div class="col-md-3">
+
+                    <label>
+                        Cilindros
+                    </label>
+
+
+                    <select id="cilindros" class="form-select">
+
+                        <option>Monocilindro</option>
+                        <option>2 cilindros</option>
+                        <option>3 cilindros</option>
+                        <option>4 cilindros</option>
+                        <option>6 cilindros</option>
+                        <option>V8</option>
+                        <option>V12</option>
+
+                    </select>
+
+                </div>
+
+
+
+
+                <div class="col-md-3">
+
+                    <label>
+                        Categoria
+                    </label>
+
+
+                    <select id="categoria" class="form-select">
+
+
+                        <option>Moto Urbana</option>
+                        <option>Moto Esportiva</option>
+                        <option>Moto Custom</option>
+                        <option>Moto Trail</option>
+                        <option>Carro</option>
+                        <option>Caminhão</option>
+
+
+                    </select>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="mt-4 d-flex gap-2">
+
+
+                <button class="btn btn-success" onclick="gerarCurva()">
+
+                    Gerar Curva
+
+                </button>
+
+
+
+                <button class="btn btn-warning" onclick="gsrPreset()">
+
+                    Suzuki GSR 150i
+
+                </button>
+
+
+
+                <button class="btn btn-primary" onclick="exportarCSV()">
+
+                    Exportar CSV
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div class="row mt-4">
+
+
+            <div class="col-lg-6">
+
+
+                <div class="card painel p-3">
+
+
+                    <h4>
+                        Torque (kgfm)
+                    </h4>
+
+
+                    <canvas id="graficoTorque"></canvas>
+
+
+                </div>
+
+
+            </div>
+
+
+
+
+
+            <div class="col-lg-6">
+
+
+                <div class="card painel p-3">
+
+
+                    <h4>
+                        Potência (cv)
+                    </h4>
+
+
+                    <canvas id="graficoPotencia"></canvas>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="card painel mt-4 p-3">
+
+
+            <h4>
+                Tabela Dinamômetro
+            </h4>
+
+
+            <div class="table-responsive">
+
+
+                <table class="table table-dark table-striped">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>RPM</th>
+
+                            <th>Torque</th>
+
+                            <th>Potência</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tabela">
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+    <script src="engine.js"></script>
+
+
+</body>
+
+</html>

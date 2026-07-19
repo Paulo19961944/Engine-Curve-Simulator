@@ -1,0 +1,239 @@
+body {
+
+    background: #0b0d10;
+    color: #eeeeee;
+    font-family: "Segoe UI", Arial, sans-serif;
+
+}
+
+
+
+h1 {
+
+    font-weight: 700;
+    color: #00e5ff;
+
+}
+
+
+
+.subtitle {
+
+    color: #aaa;
+
+}
+
+
+
+.painel {
+
+    background: #15191f;
+    border: 1px solid #303740;
+    border-radius: 15px;
+
+    box-shadow:
+    0 0 20px rgba(0,0,0,0.5);
+
+}
+
+
+
+h4 {
+
+    color: #00e5ff;
+    margin-bottom: 20px;
+
+}
+
+
+
+
+label {
+
+    color: #bbbbbb;
+    margin-bottom: 5px;
+
+    font-weight: 600;
+
+}
+
+
+
+
+.form-control,
+.form-select {
+
+
+    background:#0d1117 !important;
+
+    color:white !important;
+
+    border:1px solid #3b434d;
+
+
+}
+
+
+
+.form-control:focus,
+.form-select:focus {
+
+
+    border-color:#00e5ff;
+
+    box-shadow:
+    0 0 8px rgba(0,229,255,.5);
+
+
+}
+
+
+
+
+option {
+
+    background:#111;
+
+    color:white;
+
+}
+
+
+
+
+.btn {
+
+    font-weight:600;
+
+}
+
+
+
+
+.btn-success {
+
+    background:#00a86b;
+
+    border:none;
+
+}
+
+
+
+.btn-success:hover {
+
+    background:#00d084;
+
+}
+
+
+
+
+.btn-warning {
+
+    color:black;
+
+}
+
+
+
+
+canvas {
+
+
+    background:#101419;
+
+    border-radius:12px;
+
+    padding:10px;
+
+
+}
+
+
+
+
+
+.table {
+
+
+    margin-bottom:0;
+
+}
+
+
+
+.table thead {
+
+
+    background:#00e5ff;
+
+    color:#000;
+
+}
+
+
+
+.table td,
+.table th {
+
+
+    text-align:center;
+
+    vertical-align:middle;
+
+}
+
+
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+
+
+    background:#1b2028;
+
+}
+
+
+
+.table-striped>tbody>tr:nth-of-type(even)>* {
+
+
+    background:#12161c;
+
+}
+
+
+
+
+hr {
+
+    border-color:#444;
+
+}
+
+
+
+
+::-webkit-scrollbar {
+
+    width:10px;
+
+}
+
+
+
+::-webkit-scrollbar-track {
+
+    background:#111;
+
+}
+
+
+
+::-webkit-scrollbar-thumb {
+
+    background:#00e5ff;
+
+    border-radius:10px;
+
+}
