@@ -41,6 +41,7 @@ function perfilMotor(categoria, aspiracao, combustivel) {
 
 
 
+
     switch (categoria) {
 
 
@@ -58,12 +59,14 @@ function perfilMotor(categoria, aspiracao, combustivel) {
 
 
 
+
         case "Scooter":
 
             subida = 0.70;
             queda = 0.55;
 
             break;
+
 
 
 
@@ -76,12 +79,14 @@ function perfilMotor(categoria, aspiracao, combustivel) {
 
 
 
+
         case "Moto Trail":
 
             subida = 0.60;
             queda = 0.65;
 
             break;
+
 
 
 
@@ -94,12 +99,14 @@ function perfilMotor(categoria, aspiracao, combustivel) {
 
 
 
+
         case "Moto Esportiva":
 
             subida = 0.25;
             queda = 0.85;
 
             break;
+
 
 
 
@@ -187,9 +194,12 @@ function perfilMotor(categoria, aspiracao, combustivel) {
 
 
 
+
+
         // =====================
         // UTILITÁRIOS
         // =====================
+
 
 
 
@@ -256,6 +266,78 @@ function perfilMotor(categoria, aspiracao, combustivel) {
 }
 
 
+function aplicarArquitetura(
+    perfil,
+    valvulasArquitetura,
+    superquadrado,
+    vPorCil,
+    configMotor
+) {
+
+    let { subida, queda } = perfil;
+
+    // Cabeçote: OHV/OHC/DOHC
+    // Ajustes qualitativos: quanto mais moderno (DOHC), mais "alto gira".
+    if (valvulasArquitetura === "OHV") {
+        subida *= 1.10;
+        queda *= 1.10;
+    } else if (valvulasArquitetura === "OHC") {
+        subida *= 1.05;
+        queda *= 1.00;
+    } else if (valvulasArquitetura === "DOHC") {
+        subida *= 0.95;
+        queda *= 0.90;
+    }
+
+    // Superquadrado / quadrado / subquadrado
+    if (superquadrado === "Superquadrado") {
+        // tende a sustentar melhor alta
+        subida *= 0.95;
+        queda *= 0.85;
+    } else if (superquadrado === "Quadrado") {
+        subida *= 1.00;
+        queda *= 0.95;
+    } else if (superquadrado === "Subquadrado") {
+        subida *= 1.10;
+        queda *= 1.05;
+    }
+
+    // Válvulas por cilindro
+    // Mais válvulas -> melhor respiração em alta -> menor queda e rampa mais alta
+    let multV = 1.0;
+    if (vPorCil === "2v por cilindro") multV = 0.98;
+    if (vPorCil === "3v por cilindro") multV = 1.00;
+    if (vPorCil === "4v por cilindro") multV = 0.92;
+    if (vPorCil === "5v por cilindro") multV = 0.88;
+
+    // Use multV como fator de "queda" mais baixa
+    queda *= multV;
+
+    // Configuração do motor (Boxer)
+    if (configMotor === "Boxer") {
+        // boxer tende a suavidade e certa progressividade (ajuste leve)
+        subida *= 1.03;
+        queda *= 0.98;
+    } else if (configMotor === "V") {
+        // V tende a ter característica mais cheia e queda um pouco mais cedo
+        subida *= 1.02;
+        queda *= 1.02;
+    } else {
+        // Inline: neutro
+        subida *= 1.00;
+        queda *= 1.00;
+    }
+
+    // Clamp interno pra evitar valores absurdos
+    subida = Math.max(0.01, Math.min(0.99, subida));
+    queda = Math.max(0.01, Math.min(0.99, queda));
+
+    return { subida, queda };
+
+
+}
+
+
 function calcularCurva() {
 
     let torqueMax =
@@ -282,15 +364,37 @@ function calcularCurva() {
     let combustivel =
         document.getElementById("combustivel").value;
 
+    // Novos parâmetros
+    let valvulasArquitetura =
+        document.getElementById("valvulasArquitetura").value;
+
+    let superquadrado =
+        document.getElementById("superquadrado").value;
+
+    let vPorCil =
+        document.getElementById("vPorCil").value;
+
+    let configMotor =
+        document.getElementById("configMotor").value;
+
     // Torque correspondente à potência máxima no rpm alvo.
     let torquePotencia =
         potenciaMax * 716.2 / rpmPotencia;
 
-    let perfil =
+    let perfilBase =
         perfilMotor(
             categoria,
             aspiracao,
             combustivel
+        );
+
+    let perfil =
+        aplicarArquitetura(
+            perfilBase,
+            valvulasArquitetura,
+            superquadrado,
+            vPorCil,
+            configMotor
         );
 
     // Proteções contra divisão por zero / configurações estranhas.
