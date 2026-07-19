@@ -4,33 +4,17 @@ let graficoPotencia;
 let dadosCSV = [];
 
 
-
-
-
-function perfilMotor(categoria, aspiracao, combustivel){
+function perfilMotor(categoria, aspiracao, combustivel) {
 
 
     let subida = 0.35;
     let queda = 0.75;
 
 
-    if(combustivel === "Diesel"){
 
-        subida = 0.70;
-        queda = 0.45;
+    // Combustível
 
-    }
-
-
-    if(aspiracao === "Turbo"){
-
-        subida = 0.55;
-        queda = 0.70;
-
-    }
-
-
-    if(aspiracao === "Turbo Diesel"){
+    if (combustivel === "Diesel") {
 
         subida = 0.80;
         queda = 0.45;
@@ -38,8 +22,31 @@ function perfilMotor(categoria, aspiracao, combustivel){
     }
 
 
+    if (aspiracao === "Turbo") {
 
-    switch(categoria){
+        subida = 0.55;
+        queda = 0.70;
+
+    }
+
+
+    if (aspiracao === "Turbo Diesel") {
+
+        subida = 0.85;
+        queda = 0.40;
+
+    }
+
+
+
+
+
+    switch (categoria) {
+
+
+        // =====================
+        // MOTOS
+        // =====================
 
 
         case "Moto Urbana":
@@ -47,16 +54,43 @@ function perfilMotor(categoria, aspiracao, combustivel){
             subida = 0.55;
             queda = 0.70;
 
-        break;
+            break;
+
+
+
+        case "Scooter":
+
+            subida = 0.70;
+            queda = 0.55;
+
+            break;
+
+
+
+        case "CUB":
+
+            subida = 0.65;
+            queda = 0.60;
+
+            break;
+
+
+
+        case "Moto Trail":
+
+            subida = 0.60;
+            queda = 0.65;
+
+            break;
 
 
 
         case "Moto Custom":
 
-            subida = 0.75;
-            queda = 0.55;
+            subida = 0.80;
+            queda = 0.50;
 
-        break;
+            break;
 
 
 
@@ -65,248 +99,299 @@ function perfilMotor(categoria, aspiracao, combustivel){
             subida = 0.25;
             queda = 0.85;
 
-        break;
+            break;
+
+
+
+
+
+
+        // =====================
+        // CARROS
+        // =====================
+
+
+        case "Carro Popular":
+
+            subida = 0.50;
+            queda = 0.65;
+
+            break;
+
+
+
+        case "Carro Clássico":
+
+            subida = 0.65;
+            queda = 0.55;
+
+            break;
+
+
+
+        case "Carro Esportivo":
+
+            subida = 0.30;
+            queda = 0.90;
+
+            break;
+
+
+
+
+        case "VVT-i":
+
+            subida = 0.45;
+            queda = 0.80;
+
+            break;
+
+
+
+        case "VTEC":
+
+            subida = 0.25;
+            queda = 0.95;
+
+            break;
+
+
+
+
+
+
+        // =====================
+        // MUSCLE
+        // =====================
+
+
+        case "Muscle Car Clássico":
+
+            subida = 0.85;
+            queda = 0.45;
+
+            break;
+
+
+
+        case "Muscle Car Moderno":
+
+            subida = 0.70;
+            queda = 0.80;
+
+            break;
+
+
+
+
+
+
+
+        // =====================
+        // UTILITÁRIOS
+        // =====================
+
+
+
+        case "Picape Pequena":
+
+            subida = 0.70;
+            queda = 0.55;
+
+            break;
+
+
+
+
+        case "Caminhonete":
+
+            subida = 0.85;
+            queda = 0.45;
+
+            break;
+
+
+
+
+        case "SUV Moderno":
+
+            subida = 0.65;
+            queda = 0.70;
+
+            break;
+
+
+
+
+        case "SUV Clássico":
+
+            subida = 0.80;
+            queda = 0.50;
+
+            break;
+
 
 
 
         case "Caminhão":
 
-            subida = 0.85;
-            queda = 0.40;
+            subida = 0.90;
+            queda = 0.35;
 
-        break;
+            break;
 
 
     }
 
 
+
     return {
+
         subida,
         queda
+
     };
+
 
 }
 
 
-
-
-
-
-
-function calcularCurva(){
-
+function calcularCurva() {
 
     let torqueMax =
-    Number(document.getElementById("torque").value);
-
-
+        Number(document.getElementById("torque").value);
 
     let rpmTorque =
-    Number(document.getElementById("rpmTorque").value);
-
-
+        Number(document.getElementById("rpmTorque").value);
 
     let potenciaMax =
-    Number(document.getElementById("potencia").value);
-
-
+        Number(document.getElementById("potencia").value);
 
     let rpmPotencia =
-    Number(document.getElementById("rpmPotencia").value);
-
-
+        Number(document.getElementById("rpmPotencia").value);
 
     let corte =
-    Number(document.getElementById("corte").value);
-
-
+        Number(document.getElementById("corte").value);
 
     let categoria =
-    document.getElementById("categoria").value;
-
-
+        document.getElementById("categoria").value;
 
     let aspiracao =
-    document.getElementById("aspiracao").value;
-
-
+        document.getElementById("aspiracao").value;
 
     let combustivel =
-    document.getElementById("combustivel").value;
+        document.getElementById("combustivel").value;
 
-
-
-
-
+    // Torque correspondente à potência máxima no rpm alvo.
     let torquePotencia =
-    potenciaMax * 716.2 / rpmPotencia;
-
-
-
-
+        potenciaMax * 716.2 / rpmPotencia;
 
     let perfil =
-    perfilMotor(
-        categoria,
-        aspiracao,
-        combustivel
-    );
+        perfilMotor(
+            categoria,
+            aspiracao,
+            combustivel
+        );
 
+    // Proteções contra divisão por zero / configurações estranhas.
+    let faixaSubida = Math.max(1, rpmTorque - 1000);
+    let faixaAtePotencia = Math.max(1, rpmPotencia - rpmTorque);
+    let faixaAteCorte = Math.max(1, corte - rpmPotencia);
 
+    let rpm = [];
+    let torque = [];
+    let potencia = [];
 
-    let rpm=[];
-
-    let torque=[];
-
-    let potencia=[];
-
-
-
-
-
-    for(
-        let r=1000;
-        r<=corte;
-        r+=100
-    ){
-
-
+    for (
+        let r = 1000;
+        r <= corte;
+        r += 100
+    ) {
 
         let t;
 
+        // Região 1: de 1000 rpm até rpmTorque (subida até torqueMax)
+        if (r <= rpmTorque) {
+            // Normaliza 1000..rpmTorque -> 0..1
+            let fator = (r - 1000) / faixaSubida;
+            fator = Math.max(0, Math.min(1, fator));
 
+            let torqueInicial = torqueMax * perfil.subida;
 
-        if(r < rpmTorque){
+            // Garante que em rpmTorque t == torqueMax
+            t = torqueInicial + (torqueMax - torqueInicial) * fator;
 
+        // Região 2: rpmTorque..rpmPotencia (ajusta para chegar no torque compatível com potenciaMax)
+        } else if (r <= rpmPotencia) {
+            let distancia = r - rpmTorque;
+            let faixa = faixaAtePotencia;
+            let queda = distancia / faixa;
+            queda = Math.max(0, Math.min(1, queda));
 
-            let fator =
-            r/rpmTorque;
+            // Interpola suave torqueMax -> torquePotencia
+            t = torqueMax - (torqueMax - torquePotencia) * queda;
 
+        // Região 3: rpmPotencia..corte (queda até o corte)
+        } else {
+            // Para simular “característica” sem degrau logo após o pico,
+            // mantemos a potência no máximo por um passo de malha.
+            // Assim: em rpmPotencia e no próximo ponto (rpmPotencia + 100),
+            // a potência permanece em potenciaMax.
+            let proximoPasso = rpmPotencia + 100;
 
-            t =
-            torqueMax *
-            (
-                perfil.subida +
-                fator*(1-perfil.subida)
-            );
+            if (r <= proximoPasso + 1e-9) {
+                t = torquePotencia;
+            } else {
+                let distancia = r - rpmPotencia;
+                let quedaFinal = distancia / faixaAteCorte;
+                quedaFinal = Math.max(0, Math.min(1, quedaFinal));
 
-
-        }
-
-        else{
-
-
-            let queda =
-            (r-rpmTorque) /
-            (corte-rpmTorque);
-
-
-
-            t =
-            torqueMax *
-            (
-                1 -
-                queda*(1-perfil.queda)
-            );
-
-
-        }
-
-
-
-
-        /*
-        Mantém o ponto da potência máxima
-        */
-
-
-        if(r >= rpmPotencia){
-
-
-            let limite =
-            torquePotencia *
-            (
-                1 -
-                ((r-rpmPotencia)/(corte-rpmPotencia))*0.35
-            );
-
-
-            if(limite<t){
-
-                t=limite;
-
+                // Perfil.queda controla o quão agressiva é a queda.
+                // Usa um coeficiente moderado para manter formato natural.
+                let agressividade = 0.45 * (1 - perfil.queda);
+                t = torquePotencia * (1 - quedaFinal * agressividade);
             }
-
-
         }
-
-
-
 
         rpm.push(r);
-
-
         torque.push(t);
-
-
-        potencia.push(
-            t*r/716.2
-        );
-
+        potencia.push(t * r / 716.2);
 
 
     }
 
-
-
-
-
-    /*
-    Correção final:
-    nunca ultrapassa a potência informada
-    */
-
-
-    let maiorPotencia =
-    Math.max(...potencia);
-
-
-
-    if(maiorPotencia > potenciaMax){
-
-
-        let fator =
-        potenciaMax/maiorPotencia;
-
-
-
-        torque =
-        torque.map(
-            t=>t*fator
-        );
-
-
-
-        potencia =
-        torque.map(
-            (t,i)=>
-            t*rpm[i]/716.2
-        );
-
-
+    // Correção final:
+    // - forçar o ponto mais próximo de rpmPotencia a ter potenciaMax
+    // - e garantir que NENHUM outro ponto ultrapasse potenciaMax
+    //   (ex.: do tipo “torque continua alto após 8000 rpm”, então precisamos limitar).
+    let alvoIdx = 0;
+    let menorDist = Infinity;
+    for (let i = 0; i < rpm.length; i++) {
+        let dist = Math.abs(rpm[i] - rpmPotencia);
+        if (dist < menorDist) {
+            menorDist = dist;
+            alvoIdx = i;
+        }
     }
 
+    if (torque[alvoIdx] > 0 && isFinite(torque[alvoIdx])) {
+        let fator = (potenciaMax * 716.2 / rpm[alvoIdx]) / torque[alvoIdx];
+        if (isFinite(fator) && fator > 0) {
+            torque = torque.map(t => t * fator);
+            potencia = torque.map((t, i) => t * rpm[i] / 716.2);
+        }
+    }
 
+    // Clampe: nunca ultrapassar potenciaMax
+    for (let i = 0; i < potencia.length; i++) {
+        if (potencia[i] > potenciaMax) {
+            potencia[i] = potenciaMax;
+            // reconverte potência clampada -> torque correspondente
+            torque[i] = potencia[i] * 716.2 / rpm[i];
+        }
+    }
 
-
-
-    return {
-
-        rpm,
-        torque,
-        potencia
-
-    };
+    return { rpm, torque, potencia };
 
 }
 
@@ -318,28 +403,29 @@ function calcularCurva(){
 
 
 
-function gerarCurva(){
+
+function gerarCurva() {
 
 
     let dados =
-    calcularCurva();
+        calcularCurva();
 
 
 
-    dadosCSV=[];
+    dadosCSV = [];
 
 
 
-    for(let i=0;i<dados.rpm.length;i++){
+    for (let i = 0; i < dados.rpm.length; i++) {
 
 
         dadosCSV.push({
 
-            rpm:dados.rpm[i],
+            rpm: dados.rpm[i],
 
-            torque:dados.torque[i],
+            torque: dados.torque[i],
 
-            potencia:dados.potencia[i]
+            potencia: dados.potencia[i]
 
         });
 
@@ -366,39 +452,39 @@ function gerarCurva(){
 
 
 
-function criarGraficos(dados){
+function criarGraficos(dados) {
 
 
 
-    if(graficoTorque)
-    graficoTorque.destroy();
+    if (graficoTorque)
+        graficoTorque.destroy();
 
 
 
-    if(graficoPotencia)
-    graficoPotencia.destroy();
+    if (graficoPotencia)
+        graficoPotencia.destroy();
 
 
 
 
 
 
-    let opcoes={
+    let opcoes = {
 
 
-        responsive:true,
+        responsive: true,
 
 
-        plugins:{
+        plugins: {
 
 
-            legend:{
+            legend: {
 
 
-                labels:{
+                labels: {
 
 
-                    color:"white"
+                    color: "white"
 
 
                 }
@@ -410,24 +496,24 @@ function criarGraficos(dados){
         },
 
 
-        scales:{
+        scales: {
 
 
-            x:{
+            x: {
 
 
-                ticks:{
-                    color:"white"
+                ticks: {
+                    color: "white"
                 }
 
             },
 
 
-            y:{
+            y: {
 
 
-                ticks:{
-                    color:"white"
+                ticks: {
+                    color: "white"
                 }
 
             }
@@ -445,45 +531,45 @@ function criarGraficos(dados){
 
 
     graficoTorque =
-    new Chart(
+        new Chart(
 
-        document
-        .getElementById("graficoTorque"),
-
-
-        {
-
-            type:"line",
+            document
+                .getElementById("graficoTorque"),
 
 
-            data:{
+            {
+
+                type: "line",
 
 
-                labels:dados.rpm,
+                data: {
 
 
-                datasets:[{
+                    labels: dados.rpm,
 
 
-                    label:"Torque kgfm",
-
-                    data:dados.torque,
-
-                    borderWidth:3
+                    datasets: [{
 
 
-                }]
+                        label: "Torque kgfm",
+
+                        data: dados.torque,
+
+                        borderWidth: 3
 
 
-            },
+                    }]
 
 
-            options:opcoes
+                },
 
 
-        }
+                options: opcoes
 
-    );
+
+            }
+
+        );
 
 
 
@@ -492,45 +578,45 @@ function criarGraficos(dados){
 
 
     graficoPotencia =
-    new Chart(
+        new Chart(
 
-        document
-        .getElementById("graficoPotencia"),
-
-
-        {
-
-            type:"line",
+            document
+                .getElementById("graficoPotencia"),
 
 
-            data:{
+            {
+
+                type: "line",
 
 
-                labels:dados.rpm,
+                data: {
 
 
-                datasets:[{
+                    labels: dados.rpm,
 
 
-                    label:"Potência cv",
-
-                    data:dados.potencia,
-
-                    borderWidth:3
+                    datasets: [{
 
 
-                }]
+                        label: "Potência cv",
+
+                        data: dados.potencia,
+
+                        borderWidth: 3
 
 
-            },
+                    }]
 
 
-            options:opcoes
+                },
 
 
-        }
+                options: opcoes
 
-    );
+
+            }
+
+        );
 
 
 
@@ -544,23 +630,23 @@ function criarGraficos(dados){
 
 
 
-function criarTabela(dados){
+function criarTabela(dados) {
 
 
     let tabela =
-    document.getElementById("tabela");
+        document.getElementById("tabela");
 
 
 
-    tabela.innerHTML="";
+    tabela.innerHTML = "";
 
 
 
-    for(
-        let i=0;
-        i<dados.rpm.length;
-        i+=5
-    ){
+    for (
+        let i = 0;
+        i < dados.rpm.length;
+        i += 5
+    ) {
 
 
 
@@ -605,20 +691,20 @@ function criarTabela(dados){
 
 
 
-function exportarCSV(){
+function exportarCSV() {
 
 
     let texto =
-    "RPM,Torque kgfm,Potencia cv\n";
+        "RPM,Torque kgfm,Potencia cv\n";
 
 
 
-    dadosCSV.forEach(d=>{
+    dadosCSV.forEach(d => {
 
 
         texto +=
 
-        `${d.rpm},${d.torque.toFixed(3)},${d.potencia.toFixed(2)}\n`;
+            `${d.rpm},${d.torque.toFixed(3)},${d.potencia.toFixed(2)}\n`;
 
 
     });
@@ -626,27 +712,27 @@ function exportarCSV(){
 
 
     let blob =
-    new Blob(
-        [texto],
-        {
-            type:"text/csv"
-        }
-    );
+        new Blob(
+            [texto],
+            {
+                type: "text/csv"
+            }
+        );
 
 
 
     let link =
-    document.createElement("a");
+        document.createElement("a");
 
 
 
     link.href =
-    URL.createObjectURL(blob);
+        URL.createObjectURL(blob);
 
 
 
     link.download =
-    "curva_motor.csv";
+        "curva_motor.csv";
 
 
 
@@ -664,30 +750,30 @@ function exportarCSV(){
 
 
 
-function gsrPreset(){
+function gsrPreset() {
 
 
-    document.getElementById("torque").value=1.08;
+    document.getElementById("torque").value = 1.08;
 
-    document.getElementById("rpmTorque").value=6000;
+    document.getElementById("rpmTorque").value = 6000;
 
-    document.getElementById("potencia").value=12;
+    document.getElementById("potencia").value = 12;
 
-    document.getElementById("rpmPotencia").value=8000;
+    document.getElementById("rpmPotencia").value = 8000;
 
-    document.getElementById("corte").value=10000;
-
-
-    document.getElementById("categoria").value=
-    "Moto Urbana";
+    document.getElementById("corte").value = 10000;
 
 
-    document.getElementById("aspiracao").value=
-    "Aspirado";
+    document.getElementById("categoria").value =
+        "Moto Urbana";
 
 
-    document.getElementById("combustivel").value=
-    "Gasolina";
+    document.getElementById("aspiracao").value =
+        "Aspirado";
+
+
+    document.getElementById("combustivel").value =
+        "Gasolina";
 
 
     gerarCurva();
